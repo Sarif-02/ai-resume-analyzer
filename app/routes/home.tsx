@@ -15,11 +15,11 @@ export default function Home() {
     <Navbar />
 
     <section className="main-section">
-      <div className="page-heading">
+      <div className="page-heading py-16">
         <h1>Track Your Application & Resume Rating</h1>
         <h2>Review your submissions and check AI-powered feedback</h2>
       </div>
-    </section>
+   
 
   {resumes.length > 0 && (
     <div className="resumes-section">
@@ -28,6 +28,6 @@ export default function Home() {
       ))}
     </div>
   )}
-
+ </section>
   </main>
 }
