@@ -10,9 +10,8 @@ function FileUploader({ onFileSelect }: FileUploaderProps) {
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         // Do something with the files
-        const file = acceptedFiles[0] || null;
-
-        onFileSelect?.(file);
+        const selectedFile = acceptedFiles[0] || null;
+        onFileSelect?.(selectedFile);
     }, [onFileSelect]);
 
     const maxFileSize = 20 * 1024 * 1024;

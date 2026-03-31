@@ -26,9 +26,9 @@ function upload() {
     if (!uploadedFile) return setstatusText('Error: Failed To Uplaod File');
 
     if (!fs) {
-  setstatusText("Error: File system not initialized");
-  return;
-}
+      setstatusText("Error: File system not initialized");
+      return;
+    }
 
     setstatusText('Converting to image...');
     const imageFile = await convertPdfToImage(file);
@@ -37,7 +37,7 @@ function upload() {
     setstatusText('Uploading the image ... ');
     const uploadedImage = await fs.upload([imageFile.file]);
     if (!uploadedImage) return setstatusText('Error: Failed to upload image');
-    setstatusText( 'Preparing data...');
+    setstatusText('Preparing data...');
 
     const uuid = generateUUID();
     const data = {
@@ -53,16 +53,16 @@ function upload() {
     setstatusText('Analyzing...');
 
     const feedback = await ai.feedback(
-       uploadedFile.path,
-    prepareInstructions({ jobTitle, jobDescription })
+      uploadedFile.path,
+      prepareInstructions({ jobTitle, jobDescription })
     )
     if (!feedback) return setstatusText('Error: Failed to analyze resume');
 
     const feedbackText = typeof feedback.message.content === 'string'
-    ? feedback.message.content
-    : feedback.message.content[0].text;
+      ? feedback.message.content
+      : feedback.message.content[0].text;
 
-    data.feedback = JSON.parse( feedbackText);
+    data.feedback = JSON.parse(feedbackText);
     await kv.set(`resume:${uuid}`, JSON.stringify(data));
     setstatusText('Analysis complete, redirecting...');
     console.log(data);
@@ -70,8 +70,8 @@ function upload() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget.closest('form');
-    if (!form) return;
+    const form = e.currentTarget;
+     if (!form) return;
     const formData = new FormData(form);
 
     const companyName: FormDataEntryValue | null = formData.get('company-name') as string;
