@@ -1,6 +1,10 @@
 import React from 'react'
 
-function Details() {
+interface DetailsProps {
+  feedback: Feedback
+}
+
+const Details: React.FC<DetailsProps> = ({ feedback }) => {
   return (
     <div>Details</div>
   )

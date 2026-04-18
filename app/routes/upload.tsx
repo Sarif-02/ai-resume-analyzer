@@ -62,10 +62,28 @@ function upload() {
       ? feedback.message.content
       : feedback.message.content[0].text;
 
-    data.feedback = JSON.parse(feedbackText);
+    console.log("Raw feedback text:", feedbackText);
+
+    try {
+      const parsedFeedback = JSON.parse(feedbackText);
+      console.log("✅ Parsed feedback successfully:", parsedFeedback);
+      console.log("📊 Scores breakdown:");
+      console.log("  - Overall Score:", parsedFeedback?.overallScore);
+      console.log("  - ATS Score:", parsedFeedback?.ATS?.score);
+      console.log("  - Content Score:", parsedFeedback?.content?.score);
+      console.log("  - Structure Score:", parsedFeedback?.structure?.score);
+      console.log("  - Tone & Style Score:", parsedFeedback?.toneAndStyle?.score);
+      console.log("  - Skills Score:", parsedFeedback?.skills?.score);
+      data.feedback = parsedFeedback;
+    } catch (error) {
+      console.error("❌ Failed to parse feedback:", error);
+      console.error("Feedback text was:", feedbackText);
+      setstatusText('Error: Failed to parse feedback');
+      return;
+    }
     await kv.set(`resume:${uuid}`, JSON.stringify(data));
     setstatusText('Analysis complete, redirecting...');
-    
+
     console.log(data);
     navigate(`/resume/${uuid}`);
 
@@ -74,7 +92,7 @@ function upload() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-     if (!form) return;
+    if (!form) return;
     const formData = new FormData(form);
 
     const companyName: FormDataEntryValue | null = formData.get('company-name') as string;

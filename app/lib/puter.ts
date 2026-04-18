@@ -335,7 +335,8 @@ export const usePuterStore = create<PuterStore>((set, get) => {
       return;
     }
 
-    return puter.ai.chat(
+    console.log("🤖 Sending feedback request with model: gpt-4o-mini");
+    const response = await puter.ai.chat(
       [
         {
           role: "user",
@@ -351,8 +352,11 @@ export const usePuterStore = create<PuterStore>((set, get) => {
           ],
         },
       ],
-      { model: "" }
+      { model: "gpt-4o-mini" }
     ) as Promise<AIResponse | undefined>;
+
+    console.log("🤖 AI Response:", response);
+    return response;
   };
 
   const img2txt = async (image: string | File | Blob, testMode?: boolean) => {
